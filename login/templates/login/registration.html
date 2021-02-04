@@ -1,0 +1,25 @@
+<!DOCTYPE>
+<html lang="ru">
+  <head>
+    <title>Регистрация</title>
+    <meta charset='utf-8'>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <form class="decor" action="/validation-form/check.php" method="post">
+      <div class="form-left-decoration"></div>
+      <div class="form-right-decoration"></div>
+      <div class="circle"></div>
+      <div class="form-inner">
+        <div class="head-log-reg">
+          <div class="head-log"><a href="/pages/login.php"><h3>Логин</h3></a></div><div class="head-reg active"><h3>Регистрация</h3></div>
+        </div>
+        <input required type="text" name="login" placeholder="Username">
+        <input required type="email" name="email" placeholder="Email">
+        <input required type="password" name="password" placeholder="Password">
+        <input type="submit" value="Зарегистрироваться">
+      </div>
+    </form>
+  </body>
+</html>

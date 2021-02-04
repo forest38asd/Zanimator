@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <title>Авторизация</title>
+    <meta charset='utf-8'>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  </head>
+  <body>
+    <form class="decor" action="" method="POST">{% csrf_token %}
+      <div class="form-left-decoration"></div>
+      <div class="form-right-decoration"></div>
+      <div class="circle"></div>
+      <div class="form-inner">
+        <div class="head-log-reg">
+          <div id="head-log" class="head-log active" onclick="loginClick(this)"><h3>Логин</h3></div><div id="head-reg" class="head-reg" onclick="registerClick(this)"><h3>Регистрация</h3></div>
+        </div>
+        <input type="text" name="login" id="login" required placeholder="Username">
+        <input class="animate__animated input-off" type="email" id="email" name="email" placeholder="Email">
+        <input type="password" name="password" id="password" required placeholder="Password">
+        {% csrf_token %}
+        <input id="button-form" type="submit" value="Войти">
+        <!-- <input type="submit" value="Зарегистрироваться"> -->
+      </div>
+    </form>
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+* {box-sizing: border-box;}
+body {background: #0E1621;}
+/* body {background: #f69a73;} */
+a {text-decoration: none;}
+/* ANIMATE */
+.decor {
+  position: relative;
+  max-width: 390px;
+  margin: 15vh auto 0;
+  background: white;
+  border-radius: 30px;
+}
+.form-left-decoration,
+.form-right-decoration {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 20px;
+  background: #0E1621;
+  border-radius: 20px;
+}
+.form-left-decoration {
+  bottom: 60px;
+  left: -30px;
+}
+.form-right-decoration {
+  top: 60px;
+  right: -30px;
+}
+.form-left-decoration:before,
+.form-left-decoration:after,
+.form-right-decoration:before,
+.form-right-decoration:after {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 20px;
+  border-radius: 30px;
+  background: white;
+}
+.form-left-decoration:before {top: -20px;}
+.form-left-decoration:after {
+  top: 20px;
+  left: 10px;
+}
+.form-right-decoration:before {
+  top: -20px;
+  right: 0;
+}
+.form-right-decoration:after {
+  top: 20px;
+  right: 10px;
+}
+.circle {
+  position: absolute;
+  bottom: 80px;
+  left: -55px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+}
+.form-inner {padding: 50px;}
+.form-inner input,
+.form-inner textarea {
+  display: block;
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 10px;
+  background: #E9EFF6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.form-inner input[type="submit"] {
+  margin-top: 30px;
+  background: #f69a73;
+  border-bottom: 4px solid #d87d56;
+  color: white;
+  font-size: 14px;
+  cursor: pointer
+}
+.form-inner textarea {resize: none;}
+.form-inner h3 {
+  margin: 0;
+  padding: 13px 22px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #707981;
+}
+
+.head-log-reg {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 55px;
+  background: #E9EFF6;
+  margin-bottom: 25px;
+  border-radius: 30px;
+}
+
+.head-log {
+  display: inline-block;
+  border-radius: 30px;
+}
+.head-log:hover {
+  cursor: pointer;
+}
+.head-reg {
+  display: inline-block;
+  border-radius: 30px;
+}
+.head-reg:hover {
+  cursor: pointer;
+}
+
+.head-log-reg div.active {
+  background: #f69a73;
+  cursor: normal;
+}
+.head-log-reg div.active:hover {
+  cursor: default;
+}
+
+.head-log-reg div.active h3 {
+  color: white;
+}
+
+input.input-off {
+  display: none;
+  visibility: hidden;
+  height: 0px;
+  margin: 0px;
+}

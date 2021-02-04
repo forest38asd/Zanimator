@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  background: red;
+  flex-direction: column;
+}
+
+header {
+  background: blue;
+  height: 13vh;
+  width: 100%;
+}
+
+.box {
+  background-color: green;
+  height: 87vh;
+  width: 100%;
+  display: flex;
+}
+
+.left-menu {
+  background: #832;
+  width: 20%;
+}
+
+.page {
+  background: #999;
+  width: 60%;
+}
+
+.right-menu {
+  background: #2ff;
+  width: 20%;
+}
