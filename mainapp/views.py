@@ -58,3 +58,52 @@ def addDurationToDatabase(request):
         record.save()
         return JsonResponse({'valid': True})
     raise Http404
+
+
+def delDurationFromBase(request):
+    if request.is_ajax and request.method == "POST" and request.POST:
+        category_id = Category.objects.get(user_id=request.user.id,
+                                           name=request.POST['catName'])
+        day, month, year = request.POST['addDate'].split('.')
+        hour, minute = request.POST['addTime'].split(':')
+        dur = [x for x in request.POST['duration'].split(' ')] # if is_integer(x)
+        lastDur = None
+        durArr = {}
+        for x in dur:
+            if lastDur:
+                durArr[x] = lastDur
+                lastDur = None
+            else:
+                lastDur = x
+        if len(durArr) == 3:
+            dur = int(durArr['сек']) + int(durArr['мин'])*60 + int(durArr['ч'])*3600
+        elif len(durArr) == 2:
+            dur = int(durArr['сек']) + int(durArr['мин'])*60
+        else:
+            dur = int(durArr['сек'])
+
+        record = Record.objects.filter(user_id=request.user,
+                                    category_id=category_id,
+                                    date_end__year=year,
+                                    date_end__month=month,
+                                    date_end__day=day,
+                                    date_end__hour=hour,
+                                    date_end__minute=minute,
+                                    duration=timedelta(seconds=dur))
+        record[0].delete()
+        dur_today = Record.objects.filter(user_id=request.user,
+                                          category_id=category_id,
+                                          date_end__gte=date.today())
+        dur_today = sum([x.duration.seconds for x in dur_today])
+        return JsonResponse({'valid': True,
+                             'timeToday': dur_today*1000})
+    raise Http404
+
+
+def is_integer(n):
+    try:
+        int(n)
+    except ValueError:
+        return False
+    else:
+        return True

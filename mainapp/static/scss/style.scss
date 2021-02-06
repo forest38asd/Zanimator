@@ -56,6 +56,33 @@ p {
 }
 
 .program {
+  .modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    .comf-del {
+      width: 60%;
+      height: 20%;
+      background-color: $main-color-1;
+      margin: 40% auto;
+      border: rgba(0, 3, 0, 0.8) solid 2px;
+      border-radius: 10px;
+      padding: 10%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .text {
+        height: 70%;
+        margin: auto;
+        text-align: center;
+      }
+      button {
+        width: 50%;
+      }
+    }
+  }
   background-color: $main-color-1;
   width: 100vw;
   height: 100vh;
@@ -221,11 +248,13 @@ p {
         overflow: hidden;
         position: relative;
         .progress-done {
+          -webkit-transition: width 2s;
+          transition: width 1s;
           display: flex;
           flex-direction: column;
           justify-content: center;
           background-color: #2FC21E;
-          width: 10%;
+          width: 0%;
           height: 100%;
           margin: 0;
           padding: 0;
@@ -522,11 +551,27 @@ p {
         position: fixed;
         top: 62%;
         width: 94.5%;
-        height: 45%;
+        height: 37%;
         border: 0;
         overflow-y: scroll;
+        padding-bottom: 5%;
         .plate {
           margin-left: 2%;
+          .plate-body {
+            .plate-row {
+              overflow-x: hidden;
+              img.duration-edit {
+                position: absolute;
+                right: 9%;
+                transform: translateX(20px) scale(0) rotate(0turn);
+              }
+              img.duration-delete {
+                position: absolute;
+                right: 2%;
+                transform: translateX(20px) scale(0) rotate(0turn);
+              }
+            }
+          }
         }
       }
     }

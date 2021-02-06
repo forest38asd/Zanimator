@@ -3404,6 +3404,33 @@ p {
   display: flex;
   flex-direction: column;
 }
+.program .modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+}
+.program .modal .comf-del {
+  width: 60%;
+  height: 20%;
+  background-color: #17212B;
+  margin: 40% auto;
+  border: rgba(0, 3, 0, 0.8) solid 2px;
+  border-radius: 10px;
+  padding: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.program .modal .comf-del .text {
+  height: 70%;
+  margin: auto;
+  text-align: center;
+}
+.program .modal .comf-del button {
+  width: 50%;
+}
 .program header {
   height: 10%;
   width: 100%;
@@ -3574,11 +3601,13 @@ p {
   position: relative;
 }
 .program .container .page .page-progress-bar .progress-done {
+  -webkit-transition: width 2s;
+  transition: width 1s;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: #2FC21E;
-  width: 10%;
+  width: 0%;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -3875,12 +3904,26 @@ p {
     position: fixed;
     top: 62%;
     width: 94.5%;
-    height: 45%;
+    height: 37%;
     border: 0;
     overflow-y: scroll;
+    padding-bottom: 5%;
   }
   .program .container .right-menu .plate {
     margin-left: 2%;
+  }
+  .program .container .right-menu .plate .plate-body .plate-row {
+    overflow-x: hidden;
+  }
+  .program .container .right-menu .plate .plate-body .plate-row img.duration-edit {
+    position: absolute;
+    right: 9%;
+    transform: translateX(20px) scale(0) rotate(0turn);
+  }
+  .program .container .right-menu .plate .plate-body .plate-row img.duration-delete {
+    position: absolute;
+    right: 2%;
+    transform: translateX(20px) scale(0) rotate(0turn);
   }
 }
 @keyframes slideDown {

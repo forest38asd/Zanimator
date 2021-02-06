@@ -42,9 +42,10 @@ var el = document.getElementById('ul-cat').firstElementChild.firstElementChild
 choseCategory(el)
 
 function timerStart(el) {
+  el = startTimerButton
   if (date_start == 0) {
     date_start = Date.now();
-  }
+  };
   el.hidden = true;
   document.getElementById('timer-pause').hidden = false;
   isTimerStart = true;
@@ -52,6 +53,7 @@ function timerStart(el) {
   var elTimerText = document.getElementById('timer-text')
   // alert(elTimerText)
   var lastDur = dur;
+  var progressDone = document.getElementById('progress-done')
   var timer = setInterval(function() {
     if (!isTimerStart) {
       clearInterval(timer)
@@ -60,16 +62,31 @@ function timerStart(el) {
       // Пофіксити колись плавність
       percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
       document.getElementById('progress-text').textContent = percent + '%';
-      widthNow = parseInt(document.getElementById('progress-done').style.width, 10);
-      var doDoneBar = setInterval(function (){
-        if (~~widthNow === ~~percent) {
-          document.getElementById('progress-done').style.width = widthNow + '%';
-          clearInterval(doDoneBar)
-        } else {
-          widthNow += 0.1
-          document.getElementById('progress-done').style.width = widthNow + '%';
-        }
-      }, 50)
+      document.getElementById('progress-done').style.width = percent + '%';
+
+      // var doDoneBar = setInterval(function (){
+      //   var startPos = parseFloat(document.getElementById('progress-done').style.width, 10);
+      //   console.log("startPos: " + startPos + "|| percent: " + percent)
+      //   if (startPos == percent) {
+      //     clearInterval(doDoneBar)
+      //   }
+      //   else {
+      //     startPos += 0.01
+      //     document.getElementById('progress-done').style.width = startPos + '%';
+      //   }
+      // }, 50);
+
+      // widthNow = parseInt(document.getElementById('progress-done').style.width, 10);
+
+      // var doDoneBar = setInterval(function (){
+      //   if (~~widthNow === ~~percent) {
+      //     document.getElementById('progress-done').style.width = widthNow + '%';
+      //     clearInterval(doDoneBar)
+      //   } else {
+      //     widthNow += 0.1
+      //     document.getElementById('progress-done').style.width = widthNow + '%';
+      //   }
+      // }, 50)
       // while (~~(widthNow) !== percent) {
       //   alert(~~(widthNow))
       //   widthNow += 0.001
@@ -83,6 +100,7 @@ function timerStart(el) {
 
 
 function timerPause(el) {
+  el = pauseTimerButton
   el.hidden = true
   document.getElementById('timer-start').hidden = false
   isTimerStart = false
@@ -130,6 +148,7 @@ function timerSave() {
         timeAdd = hour + ":" + minute
         $elRow = $('#plate-body-row').clone().prependTo($el.children().eq(1)).prop('id', timeAdd);
         $elRow.children().eq(0).text(timeAdd)
+        timeToday = dur + timeToday
         dur = ~~(dur/1000)
         if (dur < 60) {
           $elRow.children().eq(1).text(dur + " сек")
@@ -137,7 +156,6 @@ function timerSave() {
           $elRow.children().eq(1).text(~~(dur/60) + " мин " + dur%60 + " сек")
         }
         // reset
-        timeToday = dur + timeToday
         dur = 0
         date_start = 0
         document.getElementById('timer-text').textContent = '0:00:00'
@@ -273,3 +291,191 @@ function string2unix(stringTime) {
   unixTime = s * 1000
   return unixTime
 }
+
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchend', touchEnd, false);
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var xDown = null;
+var yDown = null;
+var elStartTouch = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}
+
+
+function handleTouchStart(evt) {
+    const firstTouch = getTouches(evt)[0];
+    elStartTouch = evt.target;
+    if (evt.target == modal) {
+      modal.style.display = "none";
+    }
+    else if (evt.target.className == durationDelete.className) {
+        modal.style.display = "block";
+        durationDelete = evt.target
+    }
+    else if (evt.target == startTimerButton) {
+      timerStart(evt.target);
+    }
+    else if (evt.target == pauseTimerButton) {
+      timerPause(evt.target);
+    }
+    else if (evt.target == saveTimerButton) {
+      timerSave()
+    }
+    else if (evt.target == yesButtonDelete) {
+      $.ajax({
+        url: "delDurationFromBase/",
+        type: "POST",
+        data: {
+          catName: $('#page-cat-name').text(),
+          addTime: durationDelete.parentNode.id,
+          addDate: durationDelete.parentNode.parentNode.parentNode.id,
+          duration: durationDelete.parentNode.children[1].innerHTML,
+        },
+        success: function( result ) {
+          if (result['valid']) {
+            var parentBlock = durationDelete.parentNode.parentNode.parentNode
+            durationDelete.parentNode.remove();
+            if (parentBlock.children[1].children.length == 0){
+              parentBlock.remove();
+            }
+            durationDelete = document.getElementsByClassName("duration-delete")[0]
+            modal.style.display = "none";
+            timeToday = result['timeToday']
+            document.getElementById('time-today').textContent = unix2string(timeToday)
+            percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
+            document.getElementById('progress-text').textContent = percent + '%';
+            document.getElementById('progress-done').style.width = percent + '%';
+          } else {
+            alert(result['error'])
+          }
+        }
+      });
+    }
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+};
+
+function touchEnd(evt) {
+    elStartTouch = null;
+};
+
+function handleTouchMove(evt) {
+    if ( ! xDown || ! yDown ) {
+        return;
+    }
+    // if (evt.scale !== 1) { evt.preventDefault(); }
+
+    var xUp = evt.touches[0].clientX;
+    var yUp = evt.touches[0].clientY;
+
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+
+    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+        if ( xDiff > 0 ) {
+            /* left swipe */;
+            if (elStartTouch.className == "duration" && xDiff > 5) {
+              // $('.duration-edit').show();
+              elStartTouch.parentElement.children[2].hidden = false;
+              elStartTouch.parentElement.children[3].hidden = false;
+              anime({
+                targets: [elStartTouch.parentElement.children[2], elStartTouch.parentElement.children[3]],
+                translateX: [20, 0],
+                scale: [0, 0.5],
+                // rotate: '1turn'
+              });
+              // alert(elStartTouch.textContent);
+            }
+        } else {
+            /* right swipe */
+            if (elStartTouch.className == "duration") {
+              // $('.duration-edit').hide();
+              anime({
+                targets: elStartTouch.parentElement.children[2],
+                translateX: [0, 20],
+                scale: [0.5, 0],
+                easing: 'easeOutQuint',
+                // rotate: '0turn'
+              });
+              anime({
+                targets: elStartTouch.parentElement.children[3],
+                translateX: [0, 50],
+                scale: [0.5, 0],
+                easing: 'easeOutQuint',
+                // rotate: '0turn'
+              });
+              // elStartTouch.parentElement.children[2].hidden = true;
+              // alert(elStartTouch.parentElement.children[2].className);
+            }
+        }
+    } else {
+        if ( yDiff > 0 ) {
+            /* up swipe */
+        } else {
+            /* down swipe */
+        }
+    }
+    /* reset values */
+    xDown = null;
+    yDown = null;
+};
+
+function deleteRecord(el) {
+  $('.modal').show();
+}
+
+document.addEventListener('mousedown', checkClick, false);
+
+function checkClick(evt) {
+  if (!window.matchMedia('(max-width: 768px)').matches) {
+    if (evt.target == modal) {
+      modal.style.display = "none";
+    }
+    else if (evt.target.className == durationDelete.className) {
+        modal.style.display = "block";
+    }
+    else if (evt.target == startTimerButton) {
+      timerStart(evt.target);
+    }
+    else if (evt.target == pauseTimerButton) {
+      timerPause(evt.target);
+    }
+    else if (evt.target == saveTimerButton) {
+      timerSave();
+    }
+  }
+}
+
+var modal = document.getElementsByClassName("modal")[0];
+// modal.addEventListener("click", hideModal);
+var durationDelete = document.getElementsByClassName("duration-delete")[0];
+// durationDelete.addEventListener("click", showModal);
+var startTimerButton = document.getElementById("timer-start");
+// startTimerButton.addEventListener("click", timerStart);
+var pauseTimerButton = document.getElementById("timer-pause");
+// pauseTimerButton.addEventListener("click", timerPause);
+var saveTimerButton = document.getElementById("timer-save");
+var yesButtonDelete = document.getElementById('yes-button-delete');
+
+function showModal() {
+  modal.hidden = false;
+}
+function hideModal() {
+  modal.hidden = true;
+}
+
+// $('.duration-delete').click(showModal)
+// $('.modal').on('click', hideModal)
+// $('#timer-start').on('click', timerStart)
+// $('#timer-pause').on('click', timerPause)
+
+// window.onclick = function(event) {
+//   if (event.target == modal) {
+//     modal.style.display = "none";
+//   }
+// }
