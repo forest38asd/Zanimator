@@ -129,10 +129,11 @@ function timerSave() {
         elTimeToday.textContent = unix2string(todayInUnix + dur)
         // add row to history
         var timeAdd = new Date()
-        var day = timeAdd.getDay() > 9 ? timeAdd.getDay() : "0" + timeAdd.getDay()
+        var day = timeAdd.getDate() > 9 ? timeAdd.getDate() : "0" + timeAdd.getDate()
         var month = (timeAdd.getMonth()+1) > 9 ? timeAdd.getMonth()+1 : "0" + (timeAdd.getMonth()+1)
         var year = timeAdd.getFullYear()
         var date = day + "." + month + "." + year
+        alert(date)
         // Если нет даты сегодняшней - создать блок
         if ($('#right-menu').children().eq(1).attr('id') != date) {
           $el = $('#to-change-plate').clone().appendTo('#right-menu').prop('id', date);
@@ -193,6 +194,9 @@ document.addEventListener('visibilitychange', function() {
 
 // Changer Category
 function choseCategory(el) {
+  if ($('#cat-slide-menu').css('visibility') == 'hidden' ){
+    return;
+  }
   if (dur) {
     if(!confirm("You don`t saved timer, clear and continue?")){
         return;
@@ -264,9 +268,23 @@ function choseCategory(el) {
 
 }
 
+function toggleCategoryEditing(el) {
+  $('.left-menu-add-category').toggleClass('show-cat-menu')
+  // $('.category-delete').toggleClass('show-cat-menu')
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    if ($('#cat-slide-menu').css('visibility') == 'hidden' ){
+      $('#cat-slide-menu').css('visibility','visible');
+    }
+    else {
+      $('#cat-slide-menu').css('visibility','hidden');
+    }
+  }
+}
+
 function toggleCatMenu(el) {
   $(el).toggleClass('active')
   $('li.list-one-category').toggleClass('show-cat-menu')
+  $('.left-menu-settings').toggleClass('show-cat-menu')
   $('.left-menu').toggleClass('show-cat-menu')
   $('li.active').removeClass('show-cat-menu')
 }
@@ -310,6 +328,13 @@ function getTouches(evt) {
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
     elStartTouch = evt.target;
+    // alert(evt.target.className)
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+};
+
+function touchEnd(evt) {
+    elStartTouch = null;
     if (evt.target == modal) {
       modal.style.display = "none";
     }
@@ -319,6 +344,15 @@ function handleTouchStart(evt) {
     }
     else if (evt.target == startTimerButton) {
       timerStart(evt.target);
+    }
+    else if (evt.target.className == "chose-cat-button") {
+      choseCategory(evt.target);
+    }
+    else if (evt.target.id == "settings-edit-image") {
+      toggleCategoryEditing(evt.target);
+    }
+    else if (evt.target.id == "cat-slide-menu") {
+      toggleCatMenu(evt.target);
     }
     else if (evt.target == pauseTimerButton) {
       timerPause(evt.target);
@@ -356,12 +390,6 @@ function handleTouchStart(evt) {
         }
       });
     }
-    xDown = firstTouch.clientX;
-    yDown = firstTouch.clientY;
-};
-
-function touchEnd(evt) {
-    elStartTouch = null;
 };
 
 function handleTouchMove(evt) {
@@ -447,6 +475,15 @@ function checkClick(evt) {
     }
     else if (evt.target == saveTimerButton) {
       timerSave();
+    }
+    else if (evt.target.className == "chose-cat-button") {
+      choseCategory(evt.target);
+    }
+    else if (evt.target.id == "settings-edit-image") {
+      toggleCategoryEditing(evt.target);
+    }
+    else if (evt.target.id == "cat-slide-menu") {
+      toggleCatMenu(evt.target);
     }
   }
 }

@@ -137,6 +137,18 @@ p {
             cursor: pointer;
           }
         }
+        img.category-delete.show-cat-menu {
+          visibility: visible;
+          display: block;
+          position: relative;
+          // margin-left: 10%;
+          right: -75%;
+          top: -52px;
+          width: 10%;
+          height: 10%;
+          margin-bottom: -11.5%;
+          cursor: pointer;
+        }
         .active {
           background-color: $color-active;
           border: 2px solid $color-text;
@@ -151,6 +163,71 @@ p {
       }
       img {
         visibility: hidden;
+      }
+      .left-menu-add-category {
+        background-color: $main-color-1;
+        border-top: 2px solid $color-text;
+        position: absolute;
+        bottom: 11%;
+        width: 19.8%;
+        height: 7%;
+        padding: 0 1%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+        :hover {
+          cursor: pointer;
+        }
+        img {
+          visibility: visible;
+          width: 6%;
+          height: 60%;
+          // cursor: pointer;
+        }
+        .text-add-category {
+          // width: 30%;
+          line-height: 100%;
+          color: $color-active-text;
+          // padding: 7% 0;
+          margin: auto;
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+      .left-menu-settings {
+        background-color: $main-color-1;
+        border-top: 2px solid $color-text;
+        border-right: 1px solid $color-text;
+        position: absolute;
+        bottom: 0;
+        width: 19.75%;
+        padding: 0 1%;
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        img {
+          visibility: visible;
+          width: 13%;
+          height: 13%;
+          cursor: pointer;
+        }
+        .settings-image {
+          width: 15%;
+          height: 15%;
+          fill: $color-active-text;
+        }
+        .username {
+          line-height: 100%;
+          width: 60%;
+          color: $color-active-text;
+          padding: 7% 0;
+          font-size: 24px;
+          font-weight: 500;
+          cursor: default;
+        }
       }
     }
     .page {
@@ -397,16 +474,58 @@ p {
         min-height: 12%;
         overflow-y: visible;
         width: 100%;
+        display: -webkit-flex;
+        display: -ms-flex;
         display: flex;
         flex-direction: column;
         .all-categorie, .all-cat, .one-cat, li {
           display: none;
+        }
+        .show-cat-menu {
+          display: fixed;
+          // z-index: 2;
+          :last-child {
+            // border-top: 2px solid $color-text;
+            // border-bottom: 2px solid $color-text;
+          }
+        }
+        .left-menu-add-category {
+          height: 50px;
+        }
+        .left-menu-settings {
+          background-color: $main-color-2;
+          visibility: hidden;
+          border-bottom: 2px solid $color-text;
+          img {
+            visibility: hidden;
+          }
+        }
+        .show-cat-menu {
+          visibility: visible;
+          display: flex;
+          width: 100%;
+          position: static;
+          img {
+            position: relative;
+            visibility: visible;
+          }
+          img.settings-image {
+            visibility: hidden;
+          }
         }
         ul {
           display: flex;
           flex-direction: column;
           justify-content: center;
           flex-wrap: wrap;
+          border-bottom: 1px solid $main-color-1;
+          img.show-cat-menu {
+            // display: none;
+            // visibility: hidden;
+            right: -85%;
+            width: 7%;
+            height: 7%;
+          }
         }
         ul .active, ul .show-cat-menu {
           order: 2;
@@ -437,26 +556,18 @@ p {
           z-index: 99;
           order: 1;
         }
-        .show-cat-menu {
-            // display: fixed;
-            // z-index: 2;
-            :last-child {
-              // border-top: 2px solid $color-text;
-              border-bottom: 2px solid $color-text;
-            }
-        }
         img {
           z-index: 9999;
           visibility: visible;
           position: fixed;
           top: 5.7%;
           right: 7%;
-          transform: rotate(0deg);
-          transition-duration: 1s;
+          // transform: rotate(0deg);
+          // transition-duration: 1s;
         }
         img.active {
-          transform: rotate(-180deg);
-          transition-duration: 1s;
+          // transform: rotate(-180deg);
+          // transition-duration: 1s;
         }
       }
       .page {

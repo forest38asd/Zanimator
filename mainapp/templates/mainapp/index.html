@@ -29,14 +29,28 @@
         <div class="left-menu">
           <div class="all-categorie">Все категории</div>
           <hr class="all-cat">
-          <img class="cat-slide-menu" onclick="toggleCatMenu(this)" src="{% static 'images/down.svg' %}" alt="">
+          <img id="cat-slide-menu" class="cat-slide-menu" src="{% static 'images/down.svg' %}" alt="">
           <ul id="ul-cat">
             {% for category in cat_list %}
 
-            <li name='list-ofcat' class="list-one-category"><span onClick=choseCategory(this)>{{ category }}</span></li>
+            <li name='list-ofcat' class="list-one-category">
+              <span class="chose-cat-button" id="chose-cat-button">{{ category }}</span>
+            </li>
+            <img class="category-delete" hidden src="{% static 'images/delete.svg' %}" alt="edit">
             <hr class="one-cat">
             {% endfor %}
           </ul>
+          <div hidden class="left-menu-add-category">
+            <div class="text-add-category">
+              <img src="{% static 'images/plus.svg' %}" alt="">
+              Создать категорию
+            </div>
+          </div>
+          <div class="left-menu-settings">
+            <img class="settings-image" src="{% static 'images/settings.svg' %}" alt="">
+            <div class="username">{{ user.username }}</div>
+            <img id="settings-edit-image" src="{% static 'images/edit.svg' %}" alt="">
+          </div>
         </div>
         <div class="page">
           <div name="page-cat" class="page-head">

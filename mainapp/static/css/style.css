@@ -3481,6 +3481,17 @@ p {
   color: #C8C8C8;
   cursor: pointer;
 }
+.program .container .left-menu ul img.category-delete.show-cat-menu {
+  visibility: visible;
+  display: block;
+  position: relative;
+  right: -75%;
+  top: -52px;
+  width: 10%;
+  height: 10%;
+  margin-bottom: -11.5%;
+  cursor: pointer;
+}
 .program .container .left-menu ul .active {
   background-color: #2B5278;
   border: 2px solid #707070;
@@ -3494,6 +3505,68 @@ p {
 }
 .program .container .left-menu img {
   visibility: hidden;
+}
+.program .container .left-menu .left-menu-add-category {
+  background-color: #17212B;
+  border-top: 2px solid #707070;
+  position: absolute;
+  bottom: 11%;
+  width: 19.8%;
+  height: 7%;
+  padding: 0 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.program .container .left-menu .left-menu-add-category :hover {
+  cursor: pointer;
+}
+.program .container .left-menu .left-menu-add-category img {
+  visibility: visible;
+  width: 6%;
+  height: 60%;
+}
+.program .container .left-menu .left-menu-add-category .text-add-category {
+  line-height: 100%;
+  color: #7485F1;
+  margin: auto;
+  font-size: 18px;
+  font-weight: 500;
+}
+.program .container .left-menu .left-menu-settings {
+  background-color: #17212B;
+  border-top: 2px solid #707070;
+  border-right: 1px solid #707070;
+  position: absolute;
+  bottom: 0;
+  width: 19.75%;
+  padding: 0 1%;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.program .container .left-menu .left-menu-settings img {
+  visibility: visible;
+  width: 13%;
+  height: 13%;
+  cursor: pointer;
+}
+.program .container .left-menu .left-menu-settings .settings-image {
+  width: 15%;
+  height: 15%;
+  fill: #7485F1;
+}
+.program .container .left-menu .left-menu-settings .username {
+  line-height: 100%;
+  width: 60%;
+  color: #7485F1;
+  padding: 7% 0;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: default;
 }
 .program .container .page {
   height: 100%;
@@ -3758,17 +3831,52 @@ p {
     min-height: 12%;
     overflow-y: visible;
     width: 100%;
+    display: -webkit-flex;
+    display: -ms-flex;
     display: flex;
     flex-direction: column;
   }
   .program .container .left-menu .all-categorie, .program .container .left-menu .all-cat, .program .container .left-menu .one-cat, .program .container .left-menu li {
     display: none;
   }
+  .program .container .left-menu .show-cat-menu {
+    display: fixed;
+  }
+  .program .container .left-menu .left-menu-add-category {
+    height: 50px;
+  }
+  .program .container .left-menu .left-menu-settings {
+    background-color: #0E1621;
+    visibility: hidden;
+    border-bottom: 2px solid #707070;
+  }
+  .program .container .left-menu .left-menu-settings img {
+    visibility: hidden;
+  }
+  .program .container .left-menu .show-cat-menu {
+    visibility: visible;
+    display: flex;
+    width: 100%;
+    position: static;
+  }
+  .program .container .left-menu .show-cat-menu img {
+    position: relative;
+    visibility: visible;
+  }
+  .program .container .left-menu .show-cat-menu img.settings-image {
+    visibility: hidden;
+  }
   .program .container .left-menu ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
+    border-bottom: 1px solid #17212B;
+  }
+  .program .container .left-menu ul img.show-cat-menu {
+    right: -85%;
+    width: 7%;
+    height: 7%;
   }
   .program .container .left-menu ul .active, .program .container .left-menu ul .show-cat-menu {
     order: 2;
@@ -3798,21 +3906,12 @@ p {
     z-index: 99;
     order: 1;
   }
-  .program .container .left-menu .show-cat-menu :last-child {
-    border-bottom: 2px solid #707070;
-  }
   .program .container .left-menu img {
     z-index: 9999;
     visibility: visible;
     position: fixed;
     top: 5.7%;
     right: 7%;
-    transform: rotate(0deg);
-    transition-duration: 1s;
-  }
-  .program .container .left-menu img.active {
-    transform: rotate(-180deg);
-    transition-duration: 1s;
   }
   .program .container .page {
     position: fixed;
