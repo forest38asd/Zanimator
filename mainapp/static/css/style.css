@@ -3431,6 +3431,33 @@ p {
 .program .modal .comf-del button {
   width: 50%;
 }
+.program .editing-cat-goal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+}
+.program .editing-cat-goal .input-new-goal {
+  width: 60%;
+  height: 20%;
+  background-color: #17212B;
+  margin: 40% auto;
+  border: rgba(0, 3, 0, 0.8) solid 2px;
+  border-radius: 10px;
+  padding: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.program .editing-cat-goal .input-new-goal .text-input-new-goal {
+  height: 70%;
+  margin: auto;
+  text-align: center;
+}
+.program .editing-cat-goal .input-new-goal button {
+  width: 50%;
+}
 .program header {
   height: 10%;
   width: 100%;
@@ -3482,6 +3509,7 @@ p {
   cursor: pointer;
 }
 .program .container .left-menu ul img.category-delete.show-cat-menu {
+  transition: 2s;
   visibility: visible;
   display: block;
   position: relative;
@@ -3873,7 +3901,8 @@ p {
     flex-wrap: wrap;
     border-bottom: 1px solid #17212B;
   }
-  .program .container .left-menu ul img.show-cat-menu {
+  .program .container .left-menu ul img.category-delete.show-cat-menu {
+    margin-bottom: -8%;
     right: -85%;
     width: 7%;
     height: 7%;
@@ -3912,8 +3941,22 @@ p {
     position: fixed;
     top: 5.7%;
     right: 7%;
+    margin: 0;
+  }
+  .program .container .left-menu img.cat-slide-menu {
+    transform: rotate(0deg);
+    transform: scale(1);
+    transition-duration: 1s;
+    transition-duration: visibility 0s;
+  }
+  .program .container .left-menu img.active {
+    transform: rotate(-180deg);
+    transition-duration: 1s;
   }
   .program .container .page {
+    transition: filter 0.3s;
+    filter: blur(0);
+    transition-timing-function: ease-out;
     position: fixed;
     background-color: #17212B;
     top: 13%;
@@ -4000,6 +4043,9 @@ p {
     font-size: 48px;
   }
   .program .container .right-menu {
+    transition: filter 0.3s;
+    filter: blur(0);
+    transition-timing-function: ease-out;
     position: fixed;
     top: 62%;
     width: 94.5%;

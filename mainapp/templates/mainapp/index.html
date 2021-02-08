@@ -25,18 +25,25 @@
           <button type="button" name="button">No</button>
         </div>
       </div>
+      <div hidden class="editing-cat-goal">
+        <div class="input-new-goal">
+          <div class="text-input-new-goal">Введите новое значение</div>
+          <input type="time" id="new-goal" name="new-goal" step="1" autofocus min="00:00:00" max="09:59:59" required>
+          <button class="button-save-cat-goal" type="button" name="button">Save</button>
+        </div>
+      </div>
       <div class="container">
         <div class="left-menu">
           <div class="all-categorie">Все категории</div>
           <hr class="all-cat">
           <img id="cat-slide-menu" class="cat-slide-menu" src="{% static 'images/down.svg' %}" alt="">
-          <ul id="ul-cat">
+          <ul id="ul-cat" class="ul-cat">
             {% for category in cat_list %}
 
             <li name='list-ofcat' class="list-one-category">
               <span class="chose-cat-button" id="chose-cat-button">{{ category }}</span>
             </li>
-            <img class="category-delete" hidden src="{% static 'images/delete.svg' %}" alt="edit">
+            <img id="{{ category }}" class="category-delete" hidden src="{% static 'images/delete.svg' %}" alt="edit">
             <hr class="one-cat">
             {% endfor %}
           </ul>

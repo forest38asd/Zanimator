@@ -83,6 +83,33 @@ p {
       }
     }
   }
+  .editing-cat-goal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    .input-new-goal {
+      width: 60%;
+      height: 20%;
+      background-color: $main-color-1;
+      margin: 40% auto;
+      border: rgba(0, 3, 0, 0.8) solid 2px;
+      border-radius: 10px;
+      padding: 10%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .text-input-new-goal {
+        height: 70%;
+        margin: auto;
+        text-align: center;
+      }
+      button {
+        width: 50%;
+      }
+    }
+  }
   background-color: $main-color-1;
   width: 100vw;
   height: 100vh;
@@ -96,6 +123,8 @@ p {
     border-bottom: 1px solid $color-text;
   }
   .container {
+    // filter: blur(0);
+    // transition: filter 1s;
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
@@ -138,6 +167,7 @@ p {
           }
         }
         img.category-delete.show-cat-menu {
+          transition: 2s;
           visibility: visible;
           display: block;
           position: relative;
@@ -519,9 +549,12 @@ p {
           justify-content: center;
           flex-wrap: wrap;
           border-bottom: 1px solid $main-color-1;
-          img.show-cat-menu {
+          // margin-bottom: -11.5%;
+          img.category-delete.show-cat-menu {
             // display: none;
             // visibility: hidden;
+            // position: inline-block;
+            margin-bottom: -8%;
             right: -85%;
             width: 7%;
             height: 7%;
@@ -562,15 +595,23 @@ p {
           position: fixed;
           top: 5.7%;
           right: 7%;
-          // transform: rotate(0deg);
-          // transition-duration: 1s;
+          margin: 0;
+        }
+        img.cat-slide-menu {
+          transform: rotate(0deg);
+          transform: scale(1);
+          transition-duration: 1s;
+          transition-duration: visibility 0s;
         }
         img.active {
-          // transform: rotate(-180deg);
-          // transition-duration: 1s;
+          transform: rotate(-180deg);
+          transition-duration: 1s;
         }
       }
       .page {
+        transition: filter 0.3s;
+        filter: blur(0);
+        transition-timing-function: ease-out;
         position: fixed;
         background-color: $main-color-1;
         top: 13%;
@@ -659,6 +700,9 @@ p {
         }
       }
       .right-menu {
+        transition: filter 0.3s;
+        filter: blur(0);
+        transition-timing-function: ease-out;
         position: fixed;
         top: 62%;
         width: 94.5%;

@@ -133,10 +133,10 @@ function timerSave() {
         var month = (timeAdd.getMonth()+1) > 9 ? timeAdd.getMonth()+1 : "0" + (timeAdd.getMonth()+1)
         var year = timeAdd.getFullYear()
         var date = day + "." + month + "." + year
-        alert(date)
         // Если нет даты сегодняшней - создать блок
         if ($('#right-menu').children().eq(1).attr('id') != date) {
-          $el = $('#to-change-plate').clone().appendTo('#right-menu').prop('id', date);
+          $el = $('#to-change-plate').clone().insertAfter('#to-change-plate').prop('id', date);
+          alert(date)
           $el.attr("hidden", false);
           $($el.children().eq(1)).empty();
           $el.children().eq(0).children().eq(0).text(date)
@@ -202,6 +202,11 @@ function choseCategory(el) {
         return;
     }
   }
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    if ($("img.active")[0]){
+      toggleCatMenu($('.cat-slide-menu'))
+    }
+  }
   $('#page-cat-name').text(el.innerHTML)
   // $('div[name="page-cat"]').visibility = 'visible';
   // listOfCats = $('span[name="list-of-cat"]')
@@ -226,10 +231,10 @@ function choseCategory(el) {
         if (window.matchMedia('(max-width: 768px)').matches) {
           $('.hashtag').insertAfter($('.page-progress-bar'));
           $('.page-chart').prependTo($('#right-menu'));
-          if ($("img.active")[0]){
-            toggleCatMenu($('.cat-slide-menu'))
-          }
-          $('li').removeClass('show-cat-menu')
+          // if ($("img.active")[0]){
+          //   toggleCatMenu($('.cat-slide-menu'))
+          // }
+          // $('li').removeClass('show-cat-menu')
         }
         // Заливаем данные в историю записей справа на странице, разделяя по дням
         // $('.plate').prop('id', date);
@@ -270,12 +275,28 @@ function choseCategory(el) {
 
 function toggleCategoryEditing(el) {
   $('.left-menu-add-category').toggleClass('show-cat-menu')
-  // $('.category-delete').toggleClass('show-cat-menu')
+  $('.category-delete').toggleClass('show-cat-menu')
+  // Не работает анимация кнопки удаления. Всё перепробовал и ничего не помогает :(
+  // if ($('.category-delete').hasClass('show-cat-menu')){
+  //   $('.category-delete').css('transition','1s');
+  //   $('.category-delete').css('transform','scale(1) rotate(180deg)');
+  // }
+  // else {
+  //   $('.category-delete').css('transition','all 1s ease 1s');
+  //   $('.category-delete').css('transform','scale(0) rotate(0deg)');
+  // }
+  $('.ul-cat').toggleClass('show-cat-menu')
   if (window.matchMedia('(max-width: 768px)').matches) {
     if ($('#cat-slide-menu').css('visibility') == 'hidden' ){
       $('#cat-slide-menu').css('visibility','visible');
+      // $('#cat-slide-menu').css('transform','scale(1) rotate(180deg)');
+      $('#cat-slide-menu').css('transition','1s');
+      // $('.right-menu').css('filter', 'blur(0px)')
     }
     else {
+      // $('.right-menu').css('filter', 'blur(2px)')
+      $('#cat-slide-menu').css('transition','0s');
+      // $('#cat-slide-menu').css('transform','scale(0) rotate(180deg)');
       $('#cat-slide-menu').css('visibility','hidden');
     }
   }
@@ -287,6 +308,15 @@ function toggleCatMenu(el) {
   $('.left-menu-settings').toggleClass('show-cat-menu')
   $('.left-menu').toggleClass('show-cat-menu')
   $('li.active').removeClass('show-cat-menu')
+  // add blur
+  if ($('#cat-slide-menu').hasClass('active')){
+    $('.page').css('filter', 'blur(5px)')
+    $('.right-menu').css('filter', 'blur(5px)')
+  }
+  else {
+    $('.page').css('filter', 'blur(0px)')
+    $('.right-menu').css('filter', 'blur(0px)')
+  }
 }
 
 
@@ -305,7 +335,7 @@ function unix2string(unixTime) {
 function string2unix(stringTime) {
   h = Number(stringTime.substring(0,1))
   m = Number(stringTime.substring(2,4)) + h * 60
-  s = Number(stringTime.substring(5)) + m * 60
+  s = Number(stringTime.substring(5,7)) + m * 60
   unixTime = s * 1000
   return unixTime
 }
@@ -342,6 +372,19 @@ function touchEnd(evt) {
         modal.style.display = "block";
         durationDelete = evt.target
     }
+    else if (evt.target.id == 'time-goal') {
+      $('.editing-cat-goal').show();
+      $('.container').css('filter','blur(5px)')
+      $('.container').css('transition','0.5s')
+    }
+    else if (evt.target.className == 'editing-cat-goal') {
+      $('.editing-cat-goal').hide();
+      $('.container').css('filter','')
+      $('.container').css('transition','')
+    }
+    else if (evt.target.className == 'button-save-cat-goal') {
+      saveNewCatGoal()
+    }
     else if (evt.target == startTimerButton) {
       timerStart(evt.target);
     }
@@ -353,6 +396,9 @@ function touchEnd(evt) {
     }
     else if (evt.target.id == "cat-slide-menu") {
       toggleCatMenu(evt.target);
+    }
+    else if ($('#cat-slide-menu').hasClass('active') && !$('.left-menu').is(evt.target) && $('.left-menu').has(evt.target).length === 0) {
+      toggleCatMenu($('#cat-slide-menu'));
     }
     else if (evt.target == pauseTimerButton) {
       timerPause(evt.target);
@@ -504,6 +550,44 @@ function showModal() {
 }
 function hideModal() {
   modal.hidden = true;
+}
+
+function hideEditingCatGoal() {
+  $('.editing-cat-goal').hide();
+  $('.container').css('filter','')
+  $('.container').css('transition','')
+}
+
+function saveNewCatGoal() {
+  var value = $('#new-goal').val()
+  if (!value) {
+    alert('Empty category goal duration')
+    return
+  }
+  value = value.substring(1) + ":00"
+  alert(value)
+  alert(string2unix(value))
+  return
+  $.ajax({
+    url: "changeCatGoal/",
+    type: "POST",
+    data: {
+      catName: $('#page-cat-name').text(),
+      newCatGoal: $('#new-goal').value(),
+    },
+    success: function( result ) {
+      if (result['valid']) {
+        hideEditingCatGoal()
+        timeGoal = result['timeToday']
+        document.getElementById('time-today').textContent = unix2string(timeToday)
+        percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
+        document.getElementById('progress-text').textContent = percent + '%';
+        document.getElementById('progress-done').style.width = percent + '%';
+      } else {
+        alert(result['error'])
+      }
+    }
+  });
 }
 
 // $('.duration-delete').click(showModal)
