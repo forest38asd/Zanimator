@@ -140,7 +140,6 @@ function timerSave() {
         // Если нет даты сегодняшней - создать блок
         if ($('#right-menu').children().eq(1).attr('id') != date) {
           $el = $('#to-change-plate').clone().insertAfter('#to-change-plate').prop('id', date);
-          alert(date)
           $el.attr("hidden", false);
           $($el.children().eq(1)).empty();
           $el.children().eq(0).children().eq(0).text(date)
