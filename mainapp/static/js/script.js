@@ -32,6 +32,8 @@ var isTimerStart = false;
 var dur = 0;
 var timeGoal = string2unix(document.getElementById('time-goal').textContent)
 var timeToday = string2unix(document.getElementById('time-today').textContent)
+var allTimeToday = string2unix(document.getElementById('all-dur-today').textContent)
+var allTimeGoal = string2unix(document.getElementById('all-goal-today').textContent)
 
 var percent = ~~((dur + timeToday) / timeGoal * 100)
 document.getElementById('progress-text').textContent = percent + '%';
@@ -128,9 +130,12 @@ function timerSave() {
         document.getElementById('timer-pause').hidden = true
         document.getElementById('timer-start').hidden = false
         isTimerStart = false
-        var elTimeToday = document.getElementById('time-today')
-        var todayInUnix = string2unix(elTimeToday.textContent)
-        elTimeToday.textContent = unix2string(todayInUnix + dur)
+        timeToday += dur
+        document.getElementById('time-today').textContent = unix2string(timeToday)
+        allTimeToday += dur
+        document.getElementById('all-dur-today').textContent = unix2string(allTimeToday)
+        // var todayInUnix = string2unix(elTimeToday.textContent)
+        // elTimeToday.textContent = unix2string(todayInUnix + dur)
         // add row to history
         var timeAdd = new Date()
         var day = timeAdd.getDate() > 9 ? timeAdd.getDate() : "0" + timeAdd.getDate()
@@ -451,6 +456,8 @@ function touchEnd(evt) {
             }
             durationDelete = document.getElementsByClassName("duration-delete")[0]
             modal.style.display = "none";
+            allTimeToday = allTimeToday - timeToday + result['timeToday']
+            document.getElementById('all-dur-today').textContent = unix2string(allTimeToday)
             timeToday = result['timeToday']
             document.getElementById('time-today').textContent = unix2string(timeToday)
             percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
@@ -600,12 +607,14 @@ function saveNewCatGoal() {
     },
     success: function( result ) {
       if (result['valid']) {
-        hideEditingCatGoal()
+        allTimeGoal = allTimeGoal - timeGoal + value
+        document.getElementById('all-goal-today').textContent = unix2string(allTimeGoal)
         timeGoal = value
         document.getElementById('time-goal').textContent = unix2string(value)
         percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
         document.getElementById('progress-text').textContent = percent + '%';
         document.getElementById('progress-done').style.width = percent + '%';
+        hideEditingCatGoal()
       } else {
         alert(result['error'])
       }

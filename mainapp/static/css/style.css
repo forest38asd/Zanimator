@@ -3665,6 +3665,13 @@ p {
   margin: 0 8% 2% 8%;
   line-height: 36px;
 }
+.program .container .page .page-head .page-head-today .today-up-text-all {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2.5%;
+}
 .program .container .page .page-head .page-head-today span {
   margin: 0 15%;
   padding: 0;
@@ -3686,6 +3693,13 @@ p {
   color: #7485F1;
   margin: 0 8% 2% 8%;
   line-height: 36px;
+}
+.program .container .page .page-head .page-head-goal .today-up-text-all {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2.5%;
 }
 .program .container .page .page-head .page-head-goal span {
   margin: 0 15%;
@@ -3938,6 +3952,16 @@ p {
     display: fixed;
     z-index: 99;
     order: 1;
+  }
+  .program .container .left-menu .cat-slide-div {
+    width: 20%;
+    height: 13%;
+    z-index: 9998;
+    visibility: visible;
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 0;
   }
   .program .container .left-menu img {
     z-index: 9999;

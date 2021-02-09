@@ -322,6 +322,13 @@ p {
             margin: 0 8% 2% 8%;
             line-height: 36px;
           }
+          .today-up-text-all {
+            display: -webkit-flex;
+            display: -ms-flex;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2.5%;
+          }
           span {
             margin: 0 15%;
             padding: 0;
@@ -343,6 +350,13 @@ p {
             color: $color-active-text;
             margin: 0 8% 2% 8%;
             line-height: 36px;
+          }
+          .today-up-text-all {
+            display: -webkit-flex;
+            display: -ms-flex;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2.5%;
           }
           span {
             margin: 0 15%;
@@ -592,6 +606,16 @@ p {
           display: fixed;
           z-index: 99;
           order: 1;
+        }
+        .cat-slide-div {
+          width: 20%;
+          height: 13%;
+          z-index: 9998;
+          visibility: visible;
+          position: fixed;
+          top: 0;
+          right: 0;
+          margin: 0;
         }
         img {
           z-index: 9999;

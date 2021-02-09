@@ -9,8 +9,23 @@ def checkAuth(request):
     # auth = False
     if request.user.is_authenticated:
         cat_list = Category.objects.filter(user_id=request.user.id)
+
+        all_dur_today = Record.objects.filter(user_id=request.user.id,
+                                              date_end__gte=date.today())
+        all_dur_today = sum([x.duration.seconds for x in all_dur_today])
+
+        all_dur_goal = sum([x.goal for x in cat_list])
+
+        print(unix2string(all_dur_goal))
+        print(unix2string(all_dur_goal))
+        print(unix2string(all_dur_goal))
+        print(unix2string(all_dur_today))
+        print(unix2string(all_dur_today))
+        print(unix2string(all_dur_today))
         # records_list = Record.objects.filter(user_id=request.user.id)
-        return render(request, 'mainapp/index.html', {'cat_list': cat_list})
+        return render(request, 'mainapp/index.html', {'cat_list': cat_list,
+                                                      'all_dur_goal': unix2string(all_dur_goal),
+                                                      'all_dur_today': unix2string(all_dur_today)})
     else:
         return HttpResponseRedirect("login")
 
@@ -26,6 +41,14 @@ def getCategoryData(request):
                                           category_id=category.id,
                                           date_end__gte=date.today())
         dur_today = sum([x.duration.seconds for x in dur_today])
+
+
+
+        # Реалізувати потім, щоб всі категорії і їх цілі закидувалися в arrayJS
+        # і зберігалися в js, щоб кожен раз не лізти в БД
+        # і додати щоб при загрузці сторінки генерувалося зразу то шо треба
+        # all_dur_goal = Category.objects.filter(user_id=request.user)
+        # all_dur_goal = sum([x.goal for x in all_dur_goal])
 
         # Создаем список для отправки в javascript:
         # [date_end (when added record), duration (in seconds), hashtag]
@@ -109,6 +132,12 @@ def changeCatGoal(request):
         category.save()
         return JsonResponse({'valid': True})
     raise Http404
+
+
+def unix2string(stringTime):
+    m = stringTime % 3600 // 60 if stringTime % 3600 // 60 > 9 else "0" + str(stringTime % 3600 // 60)
+    s = stringTime % 60 if stringTime % 60 > 9 else "0" + str(stringTime % 60)
+    return str(stringTime // 3600) + ":" + str(m) + ":" + str(s)
 
 
 def is_integer(n):
