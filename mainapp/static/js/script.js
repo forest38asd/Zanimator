@@ -38,8 +38,12 @@ document.getElementById('progress-text').textContent = percent + '%';
 document.getElementById('progress-done').style.width = percent + '%';
 
 // Тестово реализовал чтоб заходило в первую категорию, потом нужно будет сделать главную страницу
-var el = document.getElementById('ul-cat').firstElementChild.firstElementChild
-choseCategory(el)
+if (getUrlParameter('category')) {
+  choseCategory(document.getElementById(getUrlParameter('category')).firstElementChild)
+} else {
+  var el = document.getElementById('ul-cat').firstElementChild.firstElementChild
+  choseCategory(el)
+}
 
 function timerStart(el) {
   el = startTimerButton
@@ -174,6 +178,9 @@ function timerSave() {
 
 document.body.onkeyup = function(e){
     if(e.keyCode == 32){
+      if(document.getElementsByClassName('editing-cat-goal')[0].style.display != "none") {
+        return
+      }
       if (!isTimerStart) {
         timerStart(document.getElementById('timer-start'))
       } else {
@@ -181,6 +188,10 @@ document.body.onkeyup = function(e){
       }
     }
     if(e.keyCode == 13){
+      if(document.getElementsByClassName('editing-cat-goal')[0].style.display != "none") {
+        saveNewCatGoal()
+        return
+      }
       timerSave()
     }
 }
@@ -194,7 +205,7 @@ document.addEventListener('visibilitychange', function() {
 
 // Changer Category
 function choseCategory(el) {
-  if ($('#cat-slide-menu').css('visibility') == 'hidden' ){
+  if ($('#cat-slide-menu').css('visibility') == 'hidden' && window.matchMedia('(max-width: 768px)').matches){
     return;
   }
   if (dur) {
@@ -219,6 +230,12 @@ function choseCategory(el) {
     },
     success: function( result ) {
       if (result['valid']) {
+        // Блюрим до полной загрузки категории
+        $('.page').css('filter', 'blur(1px)')
+        $('.page').css('transition', '0.1s')
+        $('.right-menu').css('filter', 'blur(1px)')
+        $('.right-menu').css('transition', '0.1s')
+        // Грузим категорию
         timeGoal = result['timeGoal']
         timeToday = result['timeToday']
         document.getElementById('time-goal').textContent = unix2string(timeGoal)
@@ -262,8 +279,17 @@ function choseCategory(el) {
           } else if (i[2] < 3600) {
             $elRow.children().eq(1).text(~~(i[2]/60) + " мин " + i[2]%60 + " сек")
           }
+          // Добавляем название категории в _GET чтоб при обновлении страницы не сбивалось :)
+          // document.location = document.location.href+"?category=" + $('#page-cat-name').text();
+          window.history.pushState("", "", "?category=" + $('#page-cat-name').text());
+          // Разблюриваем после полной загрузки
+          setTimeout(function(){
+            $('.page').css('filter', 'blur(0px)')
+            $('.right-menu').css('filter', 'blur(0px)')
+            $('.page').css('transition', '')
+            $('.right-menu').css('transition', '')
+          }, 200);
         });
-
       } else {
         alert(result['error'])
       }
@@ -373,6 +399,7 @@ function touchEnd(evt) {
         durationDelete = evt.target
     }
     else if (evt.target.id == 'time-goal') {
+      $('#new-goal').attr('value', '0' + $('#time-goal').text())
       $('.editing-cat-goal').show();
       $('.container').css('filter','blur(5px)')
       $('.container').css('transition','0.5s')
@@ -564,22 +591,19 @@ function saveNewCatGoal() {
     alert('Empty category goal duration')
     return
   }
-  value = value.substring(1) + ":00"
-  alert(value)
-  alert(string2unix(value))
-  return
+  value = string2unix(value.substring(1) + ":00")
   $.ajax({
     url: "changeCatGoal/",
     type: "POST",
     data: {
       catName: $('#page-cat-name').text(),
-      newCatGoal: $('#new-goal').value(),
+      newCatGoal: ~~(value/1000)
     },
     success: function( result ) {
       if (result['valid']) {
         hideEditingCatGoal()
-        timeGoal = result['timeToday']
-        document.getElementById('time-today').textContent = unix2string(timeToday)
+        timeGoal = value
+        document.getElementById('time-goal').textContent = unix2string(value)
         percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
         document.getElementById('progress-text').textContent = percent + '%';
         document.getElementById('progress-done').style.width = percent + '%';
@@ -600,3 +624,19 @@ function saveNewCatGoal() {
 //     modal.style.display = "none";
 //   }
 // }
+
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+};

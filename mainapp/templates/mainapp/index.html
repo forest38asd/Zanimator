@@ -28,7 +28,7 @@
       <div hidden class="editing-cat-goal">
         <div class="input-new-goal">
           <div class="text-input-new-goal">Введите новое значение</div>
-          <input type="time" id="new-goal" name="new-goal" step="1" autofocus min="00:00:00" max="09:59:59" required>
+          <input type="time" id="new-goal" name="new-goal" step="1" min="00:00:00" max="09:99:59" required>
           <button class="button-save-cat-goal" type="button" name="button">Save</button>
         </div>
       </div>
@@ -40,10 +40,10 @@
           <ul id="ul-cat" class="ul-cat">
             {% for category in cat_list %}
 
-            <li name='list-ofcat' class="list-one-category">
+            <li id="{{ category }}" name='list-ofcat' class="list-one-category">
               <span class="chose-cat-button" id="chose-cat-button">{{ category }}</span>
             </li>
-            <img id="{{ category }}" class="category-delete" hidden src="{% static 'images/delete.svg' %}" alt="edit">
+            <img id="del-{{ category }}" class="category-delete" hidden src="{% static 'images/delete.svg' %}" alt="edit">
             <hr class="one-cat">
             {% endfor %}
           </ul>

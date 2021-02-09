@@ -100,6 +100,17 @@ def delDurationFromBase(request):
     raise Http404
 
 
+def changeCatGoal(request):
+    if request.is_ajax and request.method == "POST" and request.POST:
+        category = Category.objects.get(user_id=request.user.id,
+                                        name=request.POST['catName'])
+
+        category.goal = int(request.POST['newCatGoal'])
+        category.save()
+        return JsonResponse({'valid': True})
+    raise Http404
+
+
 def is_integer(n):
     try:
         int(n)

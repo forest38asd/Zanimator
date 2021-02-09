@@ -6,4 +6,5 @@ urlpatterns = [
     path('getCategoryData/', views.getCategoryData, name='getCategoryData'),
     path('addDurationToDatabase/', views.addDurationToDatabase, name='addDurationToDatabase'),
     path('delDurationFromBase/', views.delDurationFromBase, name='delDurationFromBase'),
+    path('changeCatGoal/', views.changeCatGoal, name='changeCatGoal'),
 ]
