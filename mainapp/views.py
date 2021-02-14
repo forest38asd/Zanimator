@@ -16,12 +16,6 @@ def checkAuth(request):
 
         all_dur_goal = sum([x.goal for x in cat_list])
 
-        print(unix2string(all_dur_goal))
-        print(unix2string(all_dur_goal))
-        print(unix2string(all_dur_goal))
-        print(unix2string(all_dur_today))
-        print(unix2string(all_dur_today))
-        print(unix2string(all_dur_today))
         # records_list = Record.objects.filter(user_id=request.user.id)
         return render(request, 'mainapp/index.html', {'cat_list': cat_list,
                                                       'all_dur_goal': unix2string(all_dur_goal),
@@ -42,6 +36,7 @@ def getCategoryData(request):
                                           date_end__gte=date.today())
         dur_today = sum([x.duration.seconds for x in dur_today])
 
+        last_seven_days_dur = [int(sum([x.duration.seconds/60 for x in records_list if x.date_end.date() == date.today() - timedelta(days=y)])) for y in range(6,-1,-1)]
 
 
         # Реалізувати потім, щоб всі категорії і їх цілі закидувалися в arrayJS
@@ -56,7 +51,8 @@ def getCategoryData(request):
         return JsonResponse({'valid': True,
                              'timeToday': dur_today*1000,
                              'timeGoal': category.goal*1000,
-                             'records_list': records_list})
+                             'records_list': records_list,
+                             'last_seven_days_dur': last_seven_days_dur})
     raise Http404
 
 

@@ -83,7 +83,10 @@
             <img src="{% static 'images/edit.svg' %}" alt="">
             <img id="timer-save" src="{% static 'images/save.svg' %}" alt="">
           </div>
-          <div class="page-chart"></div>
+          <div id="page-chart" class="page-chart">
+            <div id="averange-seven-days" class="averange-seven-days">0 minutes</div>
+            <canvas id="chart-stats-cat" width="280" height="115%"></canvas>
+          </div>
         </div>
         <div id="right-menu" class="right-menu">
           <div hidden id="to-change-plate" class="plate">
@@ -104,6 +107,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js\node_modules\chart.js\dist\Chart.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

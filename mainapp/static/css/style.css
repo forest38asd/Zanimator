@@ -3792,6 +3792,11 @@ p {
   border-radius: 21px;
   color: #7485F1;
 }
+.program .container .page .page-chart .averange-seven-days {
+  margin-top: 2%;
+  width: 100%;
+  text-align: center;
+}
 .program .container .right-menu {
   height: 92.6%;
   width: 17%;
@@ -4081,6 +4086,16 @@ p {
     border: 0;
     overflow-y: scroll;
     padding-bottom: 5%;
+  }
+  .program .container .right-menu .page-chart {
+    margin: 2%;
+    width: 98%;
+    height: 80%;
+  }
+  .program .container .right-menu .page-chart .averange-seven-days {
+    margin-top: 2%;
+    width: 100%;
+    text-align: center;
   }
   .program .container .right-menu .plate {
     margin-left: 2%;

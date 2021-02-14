@@ -248,21 +248,21 @@ function choseCategory(el) {
         percent = +((dur + timeToday) / timeGoal * 100).toFixed(1)
         document.getElementById('progress-text').textContent = percent + '%';
         document.getElementById('progress-done').style.width = percent + '%';
+        // Чистим правое меню сохранив при этом шаблон
+        // ( нужно чтоб при выборе 2-й, 3-й ... категории обнулялась история)
+        var $pageChart = $('#page-chart')
+        var $firstForCopy = $('#to-change-plate').clone()
+        $('#right-menu').empty();
         // Если с телефона - меняем инпут хештега выше, согласно с дизайном
         if (window.matchMedia('(max-width: 768px)').matches) {
           $('.hashtag').insertAfter($('.page-progress-bar'));
-          $('.page-chart').prependTo($('#right-menu'));
+          $pageChart.appendTo($('.right-menu'));
           // if ($("img.active")[0]){
           //   toggleCatMenu($('.cat-slide-menu'))
           // }
           // $('li').removeClass('show-cat-menu')
         }
         // Заливаем данные в историю записей справа на странице, разделяя по дням
-        // $('.plate').prop('id', date);
-        // var date = '02.02.2021'
-        // var $element = $('#02.02.2021');
-        var $firstForCopy = $('#to-change-plate').clone()
-        $('#right-menu').empty();
         $firstForCopy.appendTo('#right-menu')
         var lastDate = ''
         var $el = $('#to-change-plate')
@@ -286,6 +286,11 @@ function choseCategory(el) {
           // Добавляем название категории в _GET чтоб при обновлении страницы не сбивалось :)
           // document.location = document.location.href+"?category=" + $('#page-cat-name').text();
           window.history.pushState("", "", "?category=" + $('#page-cat-name').text());
+          // Создаем график
+          createChart(document.getElementById('chart-stats-cat'), result['last_seven_days_dur'], 'minutes', getLast7Days());
+          var sum = result['last_seven_days_dur'].reduce((a, b) => a + b, 0);
+          var avg = ~~(sum / result['last_seven_days_dur'].length) || 0;
+          $('#averange-seven-days').text("avg: " + avg + " minutes")
           // Разблюриваем после полной загрузки
           setTimeout(function(){
             $('.page').css('filter', 'blur(0px)')
@@ -648,3 +653,54 @@ function getUrlParameter(sParam) {
     }
     return false;
 };
+
+
+function createChart(element, dataArray, labelDataStr, labelXStr) {
+  var myChart = new Chart(element, {
+      type: 'bar',
+      data: {
+          labels: labelXStr.split(",").reverse(),
+          datasets: [{
+              label: labelDataStr,
+              data: dataArray,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(115, 129, 164, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(115, 129, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+}
+
+function getLast7Days () {
+    return '0123456'.split('').map(function(n) {
+        var d = new Date();
+        d.setDate(d.getDate() - n);
+
+        return (function(day, month, year) {
+            return [day<10 ? '0'+day : day, month<10 ? '0'+month : month].join('/');
+        })(d.getDate(), d.getMonth());
+    }).join(',');
+ }

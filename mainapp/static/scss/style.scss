@@ -265,7 +265,6 @@ p {
       }
     }
     .page {
-
       height: 100%;
       width: 59%;
       overflow-x: hidden; /* Hide horizontal scrollbar */
@@ -436,6 +435,11 @@ p {
       }
       .page-chart {
         @include page-plate(52%, 21px);
+        .averange-seven-days {
+          margin-top: 2%;
+          width: 100%;
+          text-align: center;
+        }
       }
       // :first-child {
       //   margin-top: 2%;
@@ -738,6 +742,16 @@ p {
         border: 0;
         overflow-y: scroll;
         padding-bottom: 5%;
+        .page-chart {
+          margin: 2%;
+          width: 98%;
+          height: 80%;
+          .averange-seven-days {
+            margin-top: 2%;
+            width: 100%;
+            text-align: center;
+          }
+        }
         .plate {
           margin-left: 2%;
           .plate-body {
