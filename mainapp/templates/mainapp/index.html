@@ -47,7 +47,7 @@
             {% for category in cat_list %}
 
             <li id="{{ category }}" name='list-ofcat' class="list-one-category">
-              <span class="chose-cat-button" id="chose-cat-button">{{ category }}</span>
+              <span class="chose-cat-button" id="chose-cat-button">{{ category.name }}</span>
             </li>
             <img id="del-{{ category }}" class="category-delete" hidden src="{% static 'images/delete.svg' %}" alt="edit">
             <hr class="one-cat">

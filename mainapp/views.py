@@ -17,7 +17,7 @@ def checkAuth(request):
         all_dur_goal = sum([x.goal for x in cat_list])
 
         # records_list = Record.objects.filter(user_id=request.user.id)
-        return render(request, 'mainapp/index.html', {'cat_list': cat_list,
+        return render(request, 'mainapp/index.html', {'cat_list': cat_list.values('name'),
                                                       'all_dur_goal': unix2string(all_dur_goal),
                                                       'all_dur_today': unix2string(all_dur_today)})
     else:
