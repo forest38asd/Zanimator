@@ -39,6 +39,14 @@ var percent = ~~((dur + timeToday) / timeGoal * 100)
 document.getElementById('progress-text').textContent = percent + '%';
 document.getElementById('progress-done').style.width = percent + '%';
 
+
+if (window.matchMedia('(max-width: 768px)').matches){
+  // $('.chart-stats-cat').css('height', '95%')
+  var chartHeight = "115%"
+} else {
+  var chartHeight = "95%"
+}
+
 // Тестово реализовал чтоб заходило в первую категорию, потом нужно будет сделать главную страницу
 if (getUrlParameter('category')) {
   choseCategory(document.getElementById(getUrlParameter('category')).firstElementChild)
@@ -257,7 +265,6 @@ function choseCategory(el) {
         if (window.matchMedia('(max-width: 768px)').matches) {
           $('.hashtag').insertAfter($('.page-progress-bar'));
           $pageChart.appendTo($('.right-menu'));
-          $('.chart-stats-cat').attr('height', '115%')
           // if ($("img.active")[0]){
           //   toggleCatMenu($('.cat-slide-menu'))
           // }
@@ -288,6 +295,8 @@ function choseCategory(el) {
           // document.location = document.location.href+"?category=" + $('#page-cat-name').text();
           window.history.pushState("", "", "?category=" + $('#page-cat-name').text());
           // Создаем график
+          $('#chart-stats-cat').remove()
+          $pageChart.append('<canvas id="chart-stats-cat" class="chart-stats-cat" width="280" height="' + chartHeight + '"></canvas>')
           createChart(document.getElementById('chart-stats-cat'), result['last_seven_days_dur'], 'minutes', getLast7Days());
           var sum = result['last_seven_days_dur'].reduce((a, b) => a + b, 0);
           var avg = ~~(sum / result['last_seven_days_dur'].length) || 0;
@@ -693,6 +702,7 @@ function createChart(element, dataArray, labelDataStr, labelXStr) {
           }
       }
   });
+  return myChart
 }
 
 function getLast7Days () {
