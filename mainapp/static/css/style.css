@@ -3670,10 +3670,10 @@ p {
   display: -ms-flex;
   display: flex;
   justify-content: space-between;
-  padding: 0 2.5%;
+  padding: 0 2%;
 }
 .program .container .page .page-head .page-head-today span {
-  margin: 0 15%;
+  margin: 0 12%;
   padding: 0;
   font-size: 13px;
   font-weight: 500;
@@ -3699,10 +3699,10 @@ p {
   display: -ms-flex;
   display: flex;
   justify-content: space-between;
-  padding: 0 2.5%;
+  padding: 0 2%;
 }
 .program .container .page .page-head .page-head-goal span {
-  margin: 0 15%;
+  margin: 0 12%;
   padding: 0;
   font-size: 13px;
   font-weight: 500;
