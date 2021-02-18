@@ -257,6 +257,7 @@ function choseCategory(el) {
         if (window.matchMedia('(max-width: 768px)').matches) {
           $('.hashtag').insertAfter($('.page-progress-bar'));
           $pageChart.appendTo($('.right-menu'));
+          $('.chart-stats-cat').attr('height', '115%')
           // if ($("img.active")[0]){
           //   toggleCatMenu($('.cat-slide-menu'))
           // }
